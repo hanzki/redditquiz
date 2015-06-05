@@ -1,0 +1,49 @@
+body {
+    font-family: 'Lato', sans-serif;
+    /*background-image: url(/public/img/triangular.png);*/
+    background-color: azure;
+}
+body::after {
+  content: "";
+  background: url(/assets/img/triangular.png);
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+#quiz-img {
+    max-height: 700px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 3px solid black;
+    border-radius: 15px;
+}
+
+#quiz-title {
+    text-align: center;
+    font-size: 4em;
+}
+
+.question-panel {
+    background-color: lightyellow
+}
+
+.answer-button {
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: darkcyan;
+    border-radius: 5px;
+}
+
+.answer-button:hover {
+    background-color: darkgreen;
+}

@@ -1,11 +1,38 @@
 @(image: String, choices: List[String])
 
 @main("reddit quiz") {
-    <img src="@image" height="600px">
+    <div class="row">
+        <div class="large-12 column">
+            <h1 id="quiz-title">Guess the subreddit!</h1>
+        </div>
+    </div>
 
-    <ul>
-        @for(choice <- choices) {
-            <li>@choice</li>
-        }
-    </ul>
+    <div class="row">
+        <div class="large-10 medium-12 large-centered column">
+                <img id="quiz-img" src="@image">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-4 medium-4 column">
+            <a href="#" class="large button answer-button">@choices(0)</a>
+        </div>
+        <div class="large-4 medium-4 column">
+            <a href="#" class="large button answer-button">@choices(1)</a>
+        </div>
+        <div class="large-4 medium-4 column">
+            <a href="#" class="large button answer-button">@choices(2)</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-4 medium-4 column">
+            <a href="#" class="large button answer-button">@choices(3)</a>
+        </div>
+        <div class="large-4 medium-4 column">
+            <a href="#" class="large button answer-button">@choices(4)</a>
+        </div>
+        <div class="large-4 medium-4 column">
+            <a href="#" class="large button answer-button">@choices(5)</a>
+        </div>
+    </div>
 }

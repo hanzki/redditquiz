@@ -1,0 +1,8 @@
+@(content: List[Post])
+
+@main("reddit testing") {
+    @for(p <- content) {
+        <h2>@p.title</h2>
+        <img src="@p.url">
+    }
+}

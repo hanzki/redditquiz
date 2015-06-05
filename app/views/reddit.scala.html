@@ -1,8 +1,11 @@
-@(content: List[Post])
+@(image: String, choices: List[String])
 
-@main("reddit testing") {
-    @for(p <- content) {
-        <h2>@p.title</h2>
-        <img src="@p.url">
-    }
+@main("reddit quiz") {
+    <img src="@image" height="600px">
+
+    <ul>
+        @for(choice <- choices) {
+            <li>@choice</li>
+        }
+    </ul>
 }

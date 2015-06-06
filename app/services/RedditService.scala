@@ -1,6 +1,6 @@
 package services
 
-import models.{RedditImage, ImageQuiz}
+import models.{messages, Message, ImageQuiz, RedditImage}
 import play.api.Play.current
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
@@ -8,6 +8,8 @@ import play.api.libs.ws._
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
+import scala.slick.driver.MySQLDriver.simple._
 
 /**
  * Created by hanzki on 2.6.2015.
@@ -36,5 +38,9 @@ object RedditService {
     val choices = List("/r/funny", "/r/gaming", "/r/awwww", "/r/ftw", "/r/trees", s"/r/${posts.head.subreddit}")
 
     new ImageQuiz(new RedditImage(imagePost.title, imagePost.url, s"/r/${imagePost.subreddit}"), choices)
+  }
+
+  def getShit(implicit s: Session): List[Message] = {
+    messages.list
   }
 }

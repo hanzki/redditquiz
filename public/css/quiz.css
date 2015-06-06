@@ -1,20 +1,3 @@
-body {
-    font-family: 'Lato', sans-serif;
-    /*background-image: url(/public/img/triangular.png);*/
-    background-color: azure;
-}
-body::after {
-  content: "";
-  background: url(/assets/img/triangular.png);
-  opacity: 0.5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;   
-}
-
 #quiz-img {
     max-height: 700px;
     display: block;

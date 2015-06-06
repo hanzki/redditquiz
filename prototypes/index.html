@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../public/css/foundation.css" />
+    <link rel="stylesheet" href="../public/css/main.css" />
+    <link rel="stylesheet" href="../public/css/quiz.css" />
+    <style>
+    body:after {
+    background: url(../public/img/triangular.png);
+    }
+        
+        #welcome-panel {
+            margin-top: 2em;
+        }
+    
+        #welcome-panel > h1, 
+        #welcome-panel > p {
+        text-align: center;
+    }
+        #welcome-panel > img {
+            display: block;
+            margin: 1em auto;
+        }
+        
+        #welcome-panel > a {
+            width: 50%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+        
+    </style>
+    <script src="../public/js/vendor/modernizr.js"></script>
+</head>
+
+
+    <body>
+        <div class="row">
+            <div class="large-8 column small-centered">
+                <div id="welcome-panel" class="panel">
+                    <h1>RedditQuiz</h1>
+                    <img src="../public/img/Reddit-alien.png" style="height: 400px;">
+                    <p>How well do you know your subreddits? Test your skills!</p>
+                    <a href="#" class="button">Start RedditQuiz</a>
+                </div>
+            </div>
+        </div> 
+        
+        
+        
+        
+<script src="../public/js/vendor/jquery.js"></script>
+<script src="../public/js/foundation.min.js"></script>
+        <script>
+        $(document).foundation();
+        </script>
+    </body>
+</html>

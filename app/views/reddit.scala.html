@@ -1,6 +1,8 @@
 @(image: String, choices: List[String])
 
 @main("reddit quiz") {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/quiz.css")" />
+
     <div class="row">
         <div class="large-12 column">
             <h1 id="quiz-title">Guess the subreddit!</h1>

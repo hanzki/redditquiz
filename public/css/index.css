@@ -1,0 +1,21 @@
+#welcome-panel {
+    margin-top: 2em;
+}
+
+#welcome-panel > h1, 
+#welcome-panel > p {
+    text-align: center;
+}
+#welcome-panel > img {
+    display: block;
+    margin: 1em auto;
+    height: 400px;
+}
+
+#welcome-panel > a {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}

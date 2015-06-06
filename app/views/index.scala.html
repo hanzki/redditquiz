@@ -1,7 +1,17 @@
 @(message: String)
 
-@main("Welcome to Play") {
+@main("RedditQuiz") {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/index.css")" />
 
-    @play20.welcome(message)
+    <div class="row">
+        <div class="large-8 column small-centered">
+            <div id="welcome-panel" class="panel">
+                <h1>RedditQuiz</h1>
+                <img src="@routes.Assets.at("img/Reddit-alien.png")">
+                <p>How well do you know your subreddits? Test your skills!</p>
+                <a href="@routes.Application.reddit()" class="button">Start RedditQuiz</a>
+            </div>
+        </div>
+    </div>
 
 }

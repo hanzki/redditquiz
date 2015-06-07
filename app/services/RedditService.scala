@@ -1,6 +1,6 @@
 package services
 
-import models.{messages, Message, ImageQuiz, RedditImage}
+import models._
 import play.api.Play.current
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
@@ -16,7 +16,7 @@ import scala.slick.driver.MySQLDriver.simple._
  */
 object RedditService {
 
-  def getNewQuiz(): ImageQuiz = {
+  def getNewQuiz(): LocalImageQuiz = {
     val futureResponse: Future[WSResponse] = WS.url("http://www.reddit.com/r/random/new.json").get()
     val response = Await.result(futureResponse, 1 second)
 
@@ -37,10 +37,14 @@ object RedditService {
 
     val choices = List("/r/funny", "/r/gaming", "/r/awwww", "/r/ftw", "/r/trees", s"/r/${posts.head.subreddit}")
 
-    new ImageQuiz(new RedditImage(imagePost.title, imagePost.url, s"/r/${imagePost.subreddit}"), choices)
+    new LocalImageQuiz(new LocalRedditImage(imagePost.title, imagePost.url, s"/r/${imagePost.subreddit}"), choices)
   }
 
   def getShit(implicit s: Session): List[Message] = {
     messages.list
+  }
+
+  def getFromDB(implicit s: Session): ImageQuiz = {
+    imageQuizs.sortBy(_ => SimpleFunction[Double]("rand").apply(Seq.empty)).first
   }
 }

@@ -19,6 +19,11 @@ object Application extends Controller {
     Ok(views.html.reddit(quiz.image.src, quiz.choices))
   }
 
+  def db = DBAction { implicit rs =>
+    val quiz = RedditService.getFromDB
+    Ok(views.html.reddit(quiz.image.src, quiz.choices.map(_.name)))
+  }
+
   def slick = DBAction { implicit rs =>
     val ms = messages.list
     Ok(ms.map(_.content).mkString("\n"))

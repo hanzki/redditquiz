@@ -4,7 +4,7 @@
 
 DROP TABLE IF EXISTS subreddits;
 CREATE TABLE subreddits (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=INNODB;
@@ -12,7 +12,7 @@ CREATE TABLE subreddits (
 DROP TABLE IF EXISTS reddit_images;
 CREATE TABLE reddit_images (
     id INT NOT NULL AUTO_INCREMENT,
-    srd_id SMALLINT NOT NULL,
+    srd_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     src VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS image_quizs;
 CREATE TABLE image_quizs (
     id INT NOT NULL AUTO_INCREMENT,
     img_id INT NOT NULL,
-    choice_1 SMALLINT NOT NULL,
-    choice_2 SMALLINT NOT NULL,
-    choice_3 SMALLINT NOT NULL,
-    choice_4 SMALLINT NOT NULL,
-    choice_5 SMALLINT NOT NULL,
-    choice_6 SMALLINT NOT NULL,
+    choice_1 INT NOT NULL,
+    choice_2 INT NOT NULL,
+    choice_3 INT NOT NULL,
+    choice_4 INT NOT NULL,
+    choice_5 INT NOT NULL,
+    choice_6 INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (img_id) REFERENCES reddit_images(id),
     FOREIGN KEY (choice_1) REFERENCES subreddits(id),
@@ -41,6 +41,6 @@ CREATE TABLE image_quizs (
 
 # --- !Downs
 
-DROP TABLE subreddits;
-DROP TABLE reddit_images;
 DROP TABLE image_quizs;
+DROP TABLE reddit_images;
+DROP TABLE subreddits;

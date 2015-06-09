@@ -40,10 +40,6 @@ object RedditService {
     new LocalImageQuiz(new LocalRedditImage(imagePost.title, imagePost.url, s"/r/${imagePost.subreddit}"), choices)
   }
 
-  def getShit(implicit s: Session): List[Message] = {
-    messages.list
-  }
-
   def getFromDB(implicit s: Session): ImageQuiz = {
     imageQuizs.sortBy(_ => SimpleFunction[Double]("rand").apply(Seq.empty)).first
   }

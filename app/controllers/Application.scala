@@ -1,11 +1,8 @@
 package controllers
 
-import models.messages
 import play.api.db.slick._
 import play.api.mvc._
 import services.RedditService
-
-import scala.slick.driver.MySQLDriver.simple._
 
 case class Post(title: String, url: String)
 object Application extends Controller {
@@ -22,10 +19,5 @@ object Application extends Controller {
   def db = DBAction { implicit rs =>
     val quiz = RedditService.getFromDB
     Ok(views.html.reddit(quiz.image.src, quiz.choices.map(_.name)))
-  }
-
-  def slick = DBAction { implicit rs =>
-    val ms = messages.list
-    Ok(ms.map(_.content).mkString("\n"))
   }
 }

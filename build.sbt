@@ -6,7 +6,7 @@ lazy val `redditquiz` = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.1"
 
-scalacOptions ++= Seq("-feature")
+scalacOptions ++= Seq("-feature", "-Xmax-classfile-name", "130")
 
 libraryDependencies ++= Seq( jdbc , anorm , cache , ws )
 

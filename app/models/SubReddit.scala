@@ -1,11 +1,13 @@
 package models
 
-import slick.driver.MySQLDriver.simple._
+import java.sql.Timestamp
+
+import scala.slick.driver.MySQLDriver.simple._
 
 /**
  * Created by hanzki on 7.6.2015.
  */
-case class SubReddit(id: Int, name: String, subscribers: Int, nsfw: Boolean, redditName: String) {
+case class SubReddit(id: Option[Int], name: String, subscribers: Int, nsfw: Boolean, redditName: String, updated: Timestamp) {
   val fullName = s"r/$name"
 }
 
@@ -16,7 +18,8 @@ class SubReddits(tag: Tag) extends Table[SubReddit](tag, "subreddits")
   def subscribers = column[Int]("subscribers")
   def nsfw = column[Boolean]("nsfw")
   def redditName = column[String]("reddit_name")
-  def * = (id, name, subscribers, nsfw, redditName) <> (SubReddit.tupled, SubReddit.unapply)
+  def updated = column[Timestamp]("updated")
+  def * = (id.?, name, subscribers, nsfw, redditName, updated) <> (SubReddit.tupled, SubReddit.unapply)
 }
 
 object subReddits extends TableQuery(new SubReddits(_)) {

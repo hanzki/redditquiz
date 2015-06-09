@@ -4,7 +4,6 @@ import play.api.db.slick._
 import play.api.mvc._
 import services.RedditService
 
-case class Post(title: String, url: String)
 object Application extends Controller {
 
   def index = Action {

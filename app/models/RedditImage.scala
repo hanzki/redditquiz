@@ -1,12 +1,13 @@
 package models
 
+import scala.util.Try
 import slick.driver.MySQLDriver.simple._
 
 /**
  * Created by hanzki on 5.6.2015.
  */
 case class RedditImage (id: Option[Int], title: String, src: String, srdId: Int, nsfw: Boolean, redditName: String) {
-  def subReddit(implicit s: Session): SubReddit = subReddits.filter(_.id === srdId).first
+  def subReddit(implicit s: Session): Subreddit = subReddits.filter(_.id === srdId).first
 }
 
 class RedditImages(tag: Tag) extends Table[RedditImage](tag, "reddit_images")
@@ -21,6 +22,11 @@ class RedditImages(tag: Tag) extends Table[RedditImage](tag, "reddit_images")
 }
 
 object redditImages extends TableQuery(new RedditImages(_)) {
+
+  def insert(image: RedditImage)(implicit session: Session): Try[RedditImage] = Try {
+    val id = (redditImages returning redditImages.map(_.id)) += image
+    image.copy(id = Some(id))
+  }
 }
 
 class LocalRedditImage (

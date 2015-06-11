@@ -1,19 +1,18 @@
 package background
 
-import java.sql.Timestamp
-
-import models.{RedditImage, redditImages, subReddits}
+import models.{RedditImage, Subreddit, redditImages, subReddits}
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
 import play.api.libs.ws.{WS, WSResponse}
-import reddit.{RedditAPI, Subreddit}
+import reddit.RedditAPI
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
 import scala.slick.driver.MySQLDriver.simple._
+import scala.util.{Failure, Success}
 
 /**
  * Created by hanzki on 8.6.2015.
@@ -33,28 +32,44 @@ object RedditImporter {
 
       futureSubreddits.onSuccess{
         case subreddits => play.api.db.slick.DB.withSession { implicit session =>
+          val existingSubreddits: List[Subreddit] = subReddits.list
           subreddits.foreach(subreddit => {
-            val subredditId = (subReddits returning subReddits.map(_.id)) +=
-              models.SubReddit(None, subreddit.url, subreddit.subscribers,
-                subreddit.nsfw, subreddit.redditName, new Timestamp(System.currentTimeMillis()))
-
-            val futurePosts = RedditAPI.getPosts(subreddit)
-
-            futurePosts.onSuccess {
-              case posts => play.api.db.slick.DB.withSession { implicit session =>
-                posts.filter(p =>
-                  p.url.endsWith(".png") ||
-                    p.url.endsWith(".jpg") ||
-                    p.url.endsWith(".gif") ||
-                    p.url.contains("imgur")
-                ).foreach(post =>
-                  redditImages += RedditImage(None, post.title, post.url, subredditId, post.nsfw, post.redditName)
-                  )
+            val existing = existingSubreddits.find(_.name == subreddit.name)
+            existing match {
+              case Some(sr) => {
+                updateSubreddit(subreddit)
+              }
+              case None => {
+                updateSubreddit(subreddit)
               }
             }
           })
         }
       }
     }
+  }
+
+  private def updateSubreddit(subreddit: Subreddit)(implicit session: Session) = {
+    val updatedSubreddit = subReddits.save(subreddit).get
+    val futurePosts = RedditAPI.getPosts(updatedSubreddit)
+
+    futurePosts.onSuccess {
+      case posts => play.api.db.slick.DB.withSession { implicit session =>
+        posts.withFilter(imageFilter).foreach(post =>
+          redditImages.insert(post) match {
+            case Success(post) => Unit
+            case Failure(ex) => println(s"insert error: ${ex.getMessage}")
+          }
+
+          )
+      }
+    }
+  }
+
+  private def imageFilter(post: RedditImage): Boolean = {
+      post.src.endsWith(".png") ||
+      post.src.endsWith(".jpg") ||
+      post.src.endsWith(".gif") ||
+      post.src.contains("imgur")
   }
 }

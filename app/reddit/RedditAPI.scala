@@ -1,10 +1,13 @@
 package reddit
 
+import java.sql.Timestamp
+
 import akka.actor.{Actor, Props}
 import akka.contrib.throttle.Throttler._
 import akka.contrib.throttle.TimerBasedThrottler
 import akka.pattern.ask
 import akka.util.Timeout
+import models.{RedditImage, Subreddit}
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
 import play.api.libs.concurrent.Execution.Implicits._
@@ -33,36 +36,38 @@ object RedditAPI {
       ).mapTo[RedditResponse]
     futureResponse.flatMap(_.futureJson).map {json =>
 
-      implicit val subredditReads: Reads[Subreddit] = (
+      implicit val subredditReads: Reads[JsonSubreddit] = (
         (__ \ "data" \ "url").read[String] and
         (__ \ "data" \ "over18").read[Boolean] and
         (__ \ "data" \ "subscribers").read[Int] and
-        (__ \ "data" \ "name").read[String])(Subreddit.apply _)
+        (__ \ "data" \ "name").read[String])(JsonSubreddit.apply _)
 
-      (json \ "data" \ "children").as[List[Subreddit]]
+      (json \ "data" \ "children").as[List[JsonSubreddit]].map(jsr =>
+      Subreddit(None, jsr.url, jsr.subscribers, jsr.nsfw, jsr.redditName, new Timestamp(System.currentTimeMillis())))
     }
   }
 
-  def getPosts(subreddit: Subreddit, after: String = ""): Future[List[Post]] = {
+  def getPosts(subreddit: Subreddit, after: String = ""): Future[List[RedditImage]] = {
     val futureResponse = (throttler ?
-      RedditRequest(s"http://www.reddit.com${subreddit.url}.json?limit=100&after=$after")
+      RedditRequest(s"http://www.reddit.com${subreddit.name}.json?limit=100&after=$after")
       ).mapTo[RedditResponse]
     futureResponse.flatMap(_.futureJson).map {json =>
 
-      implicit val PostReads: Reads[Post] = (
+      implicit val PostReads: Reads[JsonPost] = (
         (__ \ "data" \ "title").read[String] and
         (__ \ "data" \ "url").read[String] and
         (__ \ "data" \ "over_18").read[Boolean] and
         (__ \ "data" \ "permalink").read[String] and
-        (__ \ "data" \ "name").read[String])(Post.apply _)
+        (__ \ "data" \ "name").read[String])(JsonPost.apply _)
 
-      (json \ "data" \ "children").as[List[Post]]
+      (json \ "data" \ "children").as[List[JsonPost]].map(jp =>
+      RedditImage(None, jp.title, jp.url, subreddit.id.get, jp.nsfw, jp.redditName))
     }
   }
 }
 
-case class Subreddit(url: String, nsfw: Boolean, subscribers: Int, redditName: String)
-case class Post(title: String, url: String, nsfw: Boolean, selfUrl: String, redditName: String)
+private case class JsonSubreddit(url: String, nsfw: Boolean, subscribers: Int, redditName: String)
+private case class JsonPost(title: String, url: String, nsfw: Boolean, selfUrl: String, redditName: String)
 
 private case class RedditRequest(url: String)
 private case class RedditResponse(futureJson: Future[JsValue])

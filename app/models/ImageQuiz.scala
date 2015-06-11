@@ -16,7 +16,7 @@ case class ImageQuiz
   choice5: Int,
   choice6: Int
 ){
-  def choices(implicit s: Session): List[SubReddit] = subReddits.filter(sr =>
+  def choices(implicit s: Session): List[Subreddit] = subReddits.filter(sr =>
     sr.id === choice1 ||
     sr.id === choice2 ||
     sr.id === choice3 ||

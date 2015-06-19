@@ -1,5 +1,6 @@
 package models
 
+import scala.util.Try
 import slick.driver.MySQLDriver.simple._
 
 /**
@@ -7,7 +8,7 @@ import slick.driver.MySQLDriver.simple._
  */
 case class ImageQuiz
 (
-  id: Int,
+  id: Option[Int],
   imgId: Int,
   choice1: Int,
   choice2: Int,
@@ -28,7 +29,7 @@ case class ImageQuiz
   def image(implicit s: Session): RedditImage = redditImages.filter(_.id === imgId).first
 }
 
-class ImageQuizs(tag: Tag) extends Table[ImageQuiz](tag, "image_quizs")
+class ImageQuizTable(tag: Tag) extends Table[ImageQuiz](tag, "image_quizs")
 {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def imgId = column[Int]("img_id")
@@ -38,10 +39,15 @@ class ImageQuizs(tag: Tag) extends Table[ImageQuiz](tag, "image_quizs")
   def choice4 = column[Int]("choice_4")
   def choice5 = column[Int]("choice_5")
   def choice6 = column[Int]("choice_6")
-  def * = (id, imgId, choice1, choice2, choice3, choice4, choice5, choice6) <> (ImageQuiz.tupled, ImageQuiz.unapply _)
+  def * = (id.?, imgId, choice1, choice2, choice3, choice4, choice5, choice6) <> (ImageQuiz.tupled, ImageQuiz.unapply _)
 }
 
-object imageQuizs extends TableQuery(new ImageQuizs(_)) {
+object imageQuizs extends TableQuery(new ImageQuizTable(_)) {
+
+  def insert(quiz: ImageQuiz)(implicit session: Session): Try[ImageQuiz] = Try {
+    val id = (imageQuizs returning imageQuizs.map(_.id)) += quiz
+    quiz.copy(id = Some(id))
+  }
 }
 
 class LocalImageQuiz (

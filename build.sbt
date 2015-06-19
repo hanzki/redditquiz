@@ -11,7 +11,7 @@ scalacOptions ++= Seq("-feature", "-Xmax-classfile-name", "130")
 libraryDependencies ++= Seq( jdbc , anorm , cache , ws )
 
 libraryDependencies ++= Seq(
-  "mysql" % "mysql-connector-java" % "5.1.6",
+  "mysql" % "mysql-connector-java" % "5.1.35",
   "com.typesafe.play" %% "play-slick" % "0.8.0",
   "com.typesafe.akka" %% "akka-actor" % "2.3.11",
   "com.typesafe.akka" %% "akka-contrib" % "2.3.11"

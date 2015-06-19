@@ -12,7 +12,7 @@ case class Subreddit(id: Option[Int], name: String, subscribers: Int, nsfw: Bool
   val fullName = s"r/$name"
 }
 
-class SubReddits(tag: Tag) extends Table[Subreddit](tag, "subreddits")
+class SubRedditTable(tag: Tag) extends Table[Subreddit](tag, "subreddits")
 {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
@@ -23,7 +23,7 @@ class SubReddits(tag: Tag) extends Table[Subreddit](tag, "subreddits")
   def * = (id.?, name, subscribers, nsfw, redditName, updated) <> (Subreddit.tupled, Subreddit.unapply)
 }
 
-object subReddits extends TableQuery(new SubReddits(_)) {
+object subReddits extends TableQuery(new SubRedditTable(_)) {
 
   def save(subreddit: Subreddit)(implicit session: Session): Try[Subreddit] = Try {
     val existing = this.filter(_.name === subreddit.name).firstOption
@@ -34,7 +34,7 @@ object subReddits extends TableQuery(new SubReddits(_)) {
   }.flatten
 
   def update(subreddit: Subreddit)(implicit session: Session): Try[Subreddit] = Try {
-    subReddits.filter(_.id === subreddit.id).update(subreddit)
+    this.filter(_.id === subreddit.id).update(subreddit)
     subreddit
   }
 

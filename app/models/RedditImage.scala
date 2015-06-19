@@ -1,6 +1,6 @@
 package models
 
-import scala.util.Try
+import scala.util.{Random, Try}
 import slick.driver.MySQLDriver.simple._
 
 /**
@@ -10,7 +10,7 @@ case class RedditImage (id: Option[Int], title: String, src: String, srdId: Int,
   def subReddit(implicit s: Session): Subreddit = subReddits.filter(_.id === srdId).first
 }
 
-class RedditImages(tag: Tag) extends Table[RedditImage](tag, "reddit_images")
+class RedditImageTable(tag: Tag) extends Table[RedditImage](tag, "reddit_images")
 {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def title = column[String]("title")
@@ -21,11 +21,16 @@ class RedditImages(tag: Tag) extends Table[RedditImage](tag, "reddit_images")
   def * = (id.?, title, src, srdId, nsfw, redditName) <> (RedditImage.tupled, RedditImage.unapply)
 }
 
-object redditImages extends TableQuery(new RedditImages(_)) {
+object redditImages extends TableQuery(new RedditImageTable(_)) {
 
   def insert(image: RedditImage)(implicit session: Session): Try[RedditImage] = Try {
     val id = (redditImages returning redditImages.map(_.id)) += image
     image.copy(id = Some(id))
+  }
+
+  def random()(implicit session: Session): Try[RedditImage] = Try {
+    val all = redditImages.list
+    all(Random.nextInt(all.size))
   }
 }
 

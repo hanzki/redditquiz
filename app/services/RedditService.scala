@@ -10,13 +10,14 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
 import scala.slick.driver.MySQLDriver.simple._
+import scala.util.Random
 
 /**
  * Created by hanzki on 2.6.2015.
  */
 object RedditService {
 
-  def getNewQuiz(): LocalImageQuiz = {
+  def getQuizFromReddit(): LocalImageQuiz = {
     val futureResponse: Future[WSResponse] = WS.url("http://www.reddit.com/r/random/new.json").get()
     val response = Await.result(futureResponse, 1 second)
 
@@ -40,7 +41,20 @@ object RedditService {
     new LocalImageQuiz(new LocalRedditImage(imagePost.title, imagePost.url, s"/r/${imagePost.subreddit}"), choices)
   }
 
-  def getFromDB(implicit s: Session): ImageQuiz = {
-    imageQuizs.sortBy(_ => SimpleFunction[Double]("rand").apply(Seq.empty)).first
+  def getQuizFromDB(implicit s: Session): ImageQuiz = {
+    val image = redditImages.random().get
+    val subreddits: List[Subreddit] = subReddits.list
+    val choices: List[Subreddit] = Random.shuffle(subreddits).filterNot(_.id.contains(image.srdId)).take(5) ++ List(subreddits.find(_.id.contains(image.srdId)).get)
+
+    val quiz = ImageQuiz(None, image.id.get,
+      choices(0).id.get,
+      choices(1).id.get,
+      choices(2).id.get,
+      choices(3).id.get,
+      choices(4).id.get,
+      choices(5).id.get)
+
+    imageQuizs.insert(quiz).get
+
   }
 }

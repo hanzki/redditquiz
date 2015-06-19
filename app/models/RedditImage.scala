@@ -8,6 +8,13 @@ import slick.driver.MySQLDriver.simple._
  */
 case class RedditImage (id: Option[Int], title: String, src: String, srdId: Int, nsfw: Boolean, redditName: String) {
   def subReddit(implicit s: Session): Subreddit = subReddits.filter(_.id === srdId).first
+  val redditLink = {
+    val postId = """t3_(\w+)""".r
+    redditName match {
+      case postId(id) => s"http://redd.it/$id"
+      case other => other
+    }
+  }
 }
 
 class RedditImageTable(tag: Tag) extends Table[RedditImage](tag, "reddit_images")

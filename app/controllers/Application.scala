@@ -12,12 +12,12 @@ object Application extends Controller {
 
   def reddit = Action {
     val quiz = RedditService.getQuizFromReddit()
-    Ok(views.html.reddit(quiz.image.src, quiz.choices))
+    Ok(views.html.reddit(quiz.image.src, quiz.choices, "Nope"))
   }
 
   def db = DBAction { implicit rs =>
     val quiz = RedditService.getQuizFromDB
-    Ok(views.html.reddit(imgurled(quiz.image.src), quiz.choices.map(_.name)))
+    Ok(views.html.reddit(imgurled(quiz.image.src), quiz.choices.map(_.name), quiz.image.redditLink))
   }
 
   private def imgurled(url: String): String = {

@@ -1,0 +1,12 @@
+{
+  "name": "RedditQuiz",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "latest",
+    "angular-ui-router": "latest",
+    "foundation": "latest",
+    "normalize-css": "latest"
+  },
+  "private": true
+}

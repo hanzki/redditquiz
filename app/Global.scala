@@ -1,4 +1,3 @@
-import background.RedditImporter
 import play.api.{Application, GlobalSettings, Logger}
 
 /**
@@ -8,7 +7,9 @@ object Global extends GlobalSettings {
 
   override def onStart(app: Application): Unit = {
     Logger.info("Starting the application")
-    RedditImporter.startImport()
+    //RedditImporter.startImport()
+
+
     //(1 to 100).foreach(i => RedditAPI.test(s"message #$i"))
 //    case class SubredditWithPosts(subreddit: Subreddit, posts: List[Post])
 //

@@ -3,40 +3,42 @@
 @main("reddit quiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/quiz.css")" />
 
-    <div class="row">
-        <div class="large-12 column">
-            <h1 id="quiz-title">Guess the subreddit!</h1>
+    <div ng-controller="quizCtrl">
+        <div class="row">
+            <div class="large-12 column">
+                <h1 id="quiz-title">Guess the subreddit!</h1>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="large-10 medium-12 large-centered column">
+        <div class="row">
+            <div class="large-10 medium-12 large-centered column">
                 <img id="quiz-img" src="@image">
+            </div>
         </div>
-    </div>
 
-    <a href="@reddit">@reddit</a>
-
-    <div class="row">
-        <div class="large-4 medium-4 column">
-            <a href="#" class="large button answer-button">@choices(0)</a>
+        <a href="@reddit">@reddit</a>
+        <p>{{text}}</p>
+        <div class="row">
+            <div class="large-4 medium-4 column">
+                <a href="#" class="large button answer-button">@choices(0)</a>
+            </div>
+            <div class="large-4 medium-4 column">
+                <a href="#" class="large button answer-button">@choices(1)</a>
+            </div>
+            <div class="large-4 medium-4 column">
+                <a href="#" class="large button answer-button">@choices(2)</a>
+            </div>
         </div>
-        <div class="large-4 medium-4 column">
-            <a href="#" class="large button answer-button">@choices(1)</a>
-        </div>
-        <div class="large-4 medium-4 column">
-            <a href="#" class="large button answer-button">@choices(2)</a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="large-4 medium-4 column">
-            <a href="#" class="large button answer-button">@choices(3)</a>
-        </div>
-        <div class="large-4 medium-4 column">
-            <a href="#" class="large button answer-button">@choices(4)</a>
-        </div>
-        <div class="large-4 medium-4 column">
-            <a href="#" class="large button answer-button">@choices(5)</a>
+        <div class="row">
+            <div class="large-4 medium-4 column">
+                <a href="#" class="large button answer-button">@choices(3)</a>
+            </div>
+            <div class="large-4 medium-4 column">
+                <a href="#" class="large button answer-button">@choices(4)</a>
+            </div>
+            <div class="large-4 medium-4 column">
+                <a href="#" class="large button answer-button">@choices(5)</a>
+            </div>
         </div>
     </div>
 }

@@ -1,4 +1,4 @@
-@(message: String)
+@()
 
 @main("RedditQuiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/index.css")" />
@@ -9,7 +9,9 @@
                 <h1>RedditQuiz</h1>
                 <img src="@routes.Assets.at("img/Reddit-alien.png")">
                 <p>How well do you know your subreddits? Test your skills!</p>
-                <a href="@routes.Application.reddit()" class="button">Start RedditQuiz</a>
+                <a href="@routes.QuizCtrl.view()" class="button">Start RedditQuiz</a>
+                <div ui-view></div>
+                <a ui-sref="welcome">click</a>
             </div>
         </div>
     </div>

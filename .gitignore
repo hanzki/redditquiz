@@ -13,5 +13,7 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-
-    
+public/js/app.js
+bower_components/
+node_modules
+public/build

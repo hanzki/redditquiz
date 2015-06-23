@@ -1,5 +1,8 @@
 package services
 
+import stuff.Services
+import play.api.Play.current
+
 /**
  * Created by hanzki on 22/06/15.
  */
@@ -20,6 +23,13 @@ object UtilityService {
       case gif if gif.endsWith("gif") => gif
       case simpleImgurUrl(id) => s"http://imgur.com/$id.jpg"
       case other => other
+    }
+  }
+
+  def lol = {
+    play.api.db.slick.DB.withSession { implicit session =>
+      val subreddits = Services.subredditService.findAll
+      subreddits.foreach(s => println(s"${s.id}#${s.name}"))
     }
   }
 }

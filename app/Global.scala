@@ -1,4 +1,5 @@
 import play.api.{Application, GlobalSettings, Logger}
+import services.UtilityService
 
 /**
  * Created by hanzki on 8.6.2015.
@@ -7,6 +8,7 @@ object Global extends GlobalSettings {
 
   override def onStart(app: Application): Unit = {
     Logger.info("Starting the application")
+    UtilityService.lol
     //RedditImporter.startImport()
 
 

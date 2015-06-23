@@ -20,6 +20,8 @@ libraryDependencies ++= Seq(
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
+unmanagedSourceDirectories in Compile <+= baseDirectory ( _ /"target/scala-2.11/src_managed/main")
+
 generateDaos := {
   val slickDriver = "scala.slick.driver.MySQLDriver"
   val jdbcDriver = "com.mysql.jdbc.Driver"

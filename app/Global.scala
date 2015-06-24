@@ -8,7 +8,7 @@ object Global extends GlobalSettings {
 
   override def onStart(app: Application): Unit = {
     Logger.info("Starting the application")
-    UtilityService.lol
+    UtilityService.eh
     //RedditImporter.startImport()
 
 

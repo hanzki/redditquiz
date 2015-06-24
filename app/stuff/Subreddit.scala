@@ -1,7 +1,9 @@
 package stuff
 
-import daos.Tables
-import slick.driver.MySQLDriver.simple._
+
+import daos.generated.Tables
+
+import scala.slick.driver.MySQLDriver.simple._
 
 /**
  * Created by hanzki on 23/06/15.
@@ -33,4 +35,24 @@ object Services {
   }
 
   val subredditService = subredditServiceComponent.subredditService
+}
+
+object FooDao extends {
+  val profile = scala.slick.driver.MySQLDriver
+} with Tables {
+  val name = "Foo"
+  val q = Subreddits
+
+  def withOddId = q.filter(_.id % 2 === 1)
+
+}
+
+object BarDao extends {
+  val profile = scala.slick.driver.MySQLDriver
+} with Tables {
+  val name = "bar"
+  val q = Subreddits
+
+  def withEvenId = q.filter(_.id % 2 === 0)
+
 }

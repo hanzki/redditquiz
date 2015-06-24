@@ -1,7 +1,13 @@
 package services
 
-import stuff.Services
+import daos.SubredditsDao
+import daos.SubredditsDao.SubR
+import daos.generated.Tables.SubredditsRow
 import play.api.Play.current
+import stuff.{BarDao, FooDao, Services}
+
+import scala.slick.driver.MySQLDriver.simple._
+
 
 /**
  * Created by hanzki on 22/06/15.
@@ -30,6 +36,28 @@ object UtilityService {
     play.api.db.slick.DB.withSession { implicit session =>
       val subreddits = Services.subredditService.findAll
       subreddits.foreach(s => println(s"${s.id}#${s.name}"))
+    }
+  }
+
+  def eh = {
+    play.api.db.slick.DB.withSession { implicit session =>
+      val sr : SubR = SubredditsDao.q.first
+      println(sr)
+    }
+  }
+
+  def meh = {
+    play.api.db.slick.DB.withSession { implicit session =>
+      val foo = FooDao.q.sortBy(_.name.desc).first
+      println(s"${FooDao.name}: ${foo.name}")
+      val bar = BarDao.q.sortBy(_.name.asc).first
+      println(s"${BarDao.name}: ${bar.name}")
+      val meh = BarDao.withEvenId.first
+      val lol = FooDao.withOddId.first
+      println(s"even: ${meh.id} odd: ${lol.id}")
+      var foobar = Seq(foo, bar)
+      
+      val s: SubredditsRow = SubredditsDao.q.first
     }
   }
 }

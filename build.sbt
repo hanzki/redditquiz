@@ -26,8 +26,8 @@ generateDaos := {
   val slickDriver = "scala.slick.driver.MySQLDriver"
   val jdbcDriver = "com.mysql.jdbc.Driver"
   val url = "jdbc:mysql://localhost/redditquiz"
-  val outputFolder = "target/scala-2.11/src_managed/main"
-  val pkg = "daos"
+  val outputFolder = "app"
+  val pkg = "daos.generated"
   val user = "root"
   val password = ""
   scala.slick.codegen.SourceCodeGenerator.main(Array(slickDriver, jdbcDriver, url, outputFolder, pkg, user, password))

@@ -13,7 +13,7 @@ angular.module("redditquiz")
 
 
     $scope.loadNewQuiz = function() {
-        $http.get('http://localhost:9000/api/quiz/random').success(function(data) {
+        $http.get('/api/quiz/random').success(function(data) {
             angular.copy(data, $scope.quiz);
             $scope.hasAnswered = false;
             $scope.answerId = 0;
@@ -25,7 +25,7 @@ angular.module("redditquiz")
         if($scope.hasAnswered == false){
             $scope.hasAnswered = true;
             $scope.userAnswer = answerId;
-            $http.post('http://localhost:9000/api/quiz/answer',
+            $http.post('/api/quiz/answer',
              {
                  quizId: $scope.quiz.id,
                  answerId: answerId

@@ -5,23 +5,28 @@
 
     <div ng-controller="quizCtrl">
         <div class="row">
-            <div class="large-12 column">
+            <div class="l12 col">
                 <h1 id="quiz-title">Guess the subreddit!</h1>
             </div>
         </div>
 
         <div class="row">
-            <div class="large-10 medium-12 large-centered column quiz-img-div">
+            <div class="l10 m12 s12 offset-l1 col quiz-img-div">
                     <img id="quiz-img" ng-src="{{quiz.imageUrl}}">
             </div>
         </div>
-        <div class="row">
-            <div class="large-4 medium-4 column" ng-repeat="choice in quiz.choices">
-                <a href="#" class="large button answer-button" ng-click="answer(choice.id)">{{choice.name}}</a>
+        <div id="answerRow" class="row">
+            <div class="l4 m6 s12 col" ng-repeat="choice in quiz.choices">
+                <a href="#" class="waves-effect waves-light btn-large answer-button"
+                   ng-class="{
+                   'disabled': hasAnswered && choice.id != answerId && choice.id != userAnswer,
+                   'correct': choice.id == answerId,
+                   'wrong': choice.id == userAnswer && choice.id != answerId}"
+                   ng-click="answer(choice.id)">{{choice.name}}</a>
             </div>
         </div>
         <div class="row">
-            <a href="#" class="large button answer-button" ng-click="loadNewQuiz()">reload</a>
+            <a href="#" class="waves-effect waves-light btn-large answer-button" ng-click="loadNewQuiz()">reload</a>
         </div>
 
     </div>

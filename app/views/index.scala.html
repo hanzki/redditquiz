@@ -4,14 +4,12 @@
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/index.css")" />
 
     <div class="row">
-        <div class="large-8 column small-centered">
-            <div id="welcome-panel" class="panel">
+        <div class="l8 col offset-l2">
+            <div id="welcome-panel" class="card-panel">
                 <h1>RedditQuiz</h1>
                 <img src="@routes.Assets.at("img/Reddit-alien.png")">
                 <p>How well do you know your subreddits? Test your skills!</p>
-                <a href="@routes.QuizCtrl.view()" class="button">Start RedditQuiz</a>
-                <div ui-view></div>
-                <a ui-sref="welcome">click</a>
+                <a href="@routes.QuizCtrl.view()" class="waves-effect waves-light btn">Start RedditQuiz</a>
             </div>
         </div>
     </div>

@@ -30,3 +30,36 @@
 .answer-button:hover {
     background-color: darkgreen;
 }
+
+.answer-button.correct {
+    background-color: limegreen;
+    cursor: default;
+    box-shadow: none;
+}
+
+.answer-button.wrong {
+    background-color: red;
+    cursor: default;
+    box-shadow: none;
+}
+
+#answerRow div {
+    margin-top: 20px;
+}
+
+@media only screen and (min-width: 993px){
+    #answerRow div:nth-child(-n+3) {
+        margin-top: inherit;
+    }
+}
+
+@media only screen and (min-width: 601px){
+    #answerRow div:nth-child(-n+2) {
+        margin-top: inherit;
+    }
+}
+
+#answerRow div:nth-child(-n+1) {
+    margin-top: inherit;
+}
+

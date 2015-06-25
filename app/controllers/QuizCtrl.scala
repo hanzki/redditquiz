@@ -33,6 +33,10 @@ object QuizCtrl extends Controller {
       (JsPath \ "quizId").read[Int] and
       (JsPath \ "answerId").read[Int]
     )(AnswerJson.apply _)
+  private implicit val answerJsonWrites: Writes[AnswerJson] = (
+      (JsPath \ "quizId").write[Int] and
+      (JsPath \ "answerId").write[Int]
+    )(unlift(AnswerJson.unapply))
 
   //GET /quiz
   def view = Action { implicit r =>
@@ -59,11 +63,8 @@ object QuizCtrl extends Controller {
       },
       answer => {
         val quiz = imageQuizs.filter(_.id === answer.quizId).first
-        if (quiz.image.srdId == answer.answerId){
-          Ok(Json.obj("message" -> "Correct!" ))
-        } else {
-          Ok(Json.obj("message" -> "Wrong!" ))
-        }
+        val response = answer.copy(answerId = quiz.image.srdId)
+        Ok(Json.toJson(response))
       }
     )
 

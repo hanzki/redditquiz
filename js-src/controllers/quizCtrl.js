@@ -8,23 +8,34 @@ angular.module("redditquiz")
     };
 
     $scope.hasAnswered = true;
+    $scope.answerId = 0;
+    $scope.userAnswer = 0;
+
 
     $scope.loadNewQuiz = function() {
         $http.get('http://localhost:9000/api/quiz/random').success(function(data) {
             angular.copy(data, $scope.quiz);
             $scope.hasAnswered = false;
+            $scope.answerId = 0;
+            $scope.userAnswer = 0;
         });
     }
 
     $scope.answer = function(answerId) {
         if($scope.hasAnswered == false){
             $scope.hasAnswered = true;
+            $scope.userAnswer = answerId;
             $http.post('http://localhost:9000/api/quiz/answer',
              {
                  quizId: $scope.quiz.id,
                  answerId: answerId
              }).success(function(data) {
-                 alert(data.message);
+                $scope.answerId = data.answerId;
+                if(data.answerId === answerId){
+                    Materialize.toast('Correct!', 4000, 'green')
+                } else {
+                    Materialize.toast('Wrong!', 4000, 'red')
+                }
             });
         }
     }
